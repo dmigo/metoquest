@@ -41,7 +41,7 @@ class App extends Component {
         return (
             <div className='container'>
                 <header>
-                    <h1>Metoquests</h1>
+                    <h1>Metoquests. Done: {this.props.amountOfDone}</h1>
 
                     <label className="hide-done">
                         <input type="checkbox"
@@ -73,5 +73,7 @@ App.propTypes = {
 }
 
 export default createContainer(
-    ()=>({quests: Quests.find({}, {sort: {createAt: -1}}).fetch()}),
-    App)
+    ()=>({
+        quests: Quests.find({}, {sort: {createAt: -1}}).fetch(),
+        amountOfDone: Quests.find({done: true}).count()
+    }), App)
