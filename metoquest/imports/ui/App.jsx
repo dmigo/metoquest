@@ -1,6 +1,7 @@
 import React, {Component, PropTypes} from 'react'
-import {createContainer} from 'react-meteor-data'
-import {Quests} from '../imports/api/quests'
+import ReactDOM from 'react-dom'
+import {createContainer} from 'meteor/react-meteor-data'
+import {Quests} from '../api/quests'
 import QuestList from './Quests'
 
 class App extends Component {
