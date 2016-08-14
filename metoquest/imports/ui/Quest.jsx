@@ -14,16 +14,11 @@ export default class Quest extends Component {
 
     render() {
         const className = this.props.quest.done ? 'done' : ''
-        return (<li className={className}>
+        return (<li className={className}
+                    onClick={this.toggleDone.bind(this)}>
                 <button className="delete" onClick={this.delete.bind(this)}>
                     &times;
                 </button>
-                <input
-                    type="checkbox"
-                    readOnly
-                    checked={this.props.quest.done}
-                    onClick={this.toggleDone.bind(this)}
-                />
                 <span className="text">{this.props.quest.text}</span>
             </li>
         )
