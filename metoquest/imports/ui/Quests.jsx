@@ -3,10 +3,14 @@ import Quest from './Quest'
 
 export default class Quests extends Component {
     render() {
+        let filtered = this.props.quests
+        if (this.props.hideDone)
+            filtered = filtered.filter(quest =>!quest.done)
+
         return (
             <ul>
                 {
-                    this.props.quests.map(quest=>(
+                    filtered.map(quest=>(
                         <Quest key={quest._id} quest={quest}/>
                     ))
                 }

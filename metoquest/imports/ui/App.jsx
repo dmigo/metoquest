@@ -8,6 +8,14 @@ import QuestList from './Quests'
 
 class App extends Component {
 
+    constructor(props) {
+        super(props)
+
+        this.state = {
+            hideDone: false
+        }
+    }
+
     handleSubmit(event) {
         event.preventDefault();
 
@@ -23,22 +31,38 @@ class App extends Component {
         ReactDOM.findDOMNode(this.refs.textInput).value = '';
     }
 
+    toggleHideDone() {
+        this.setState({
+            hideDone: !this.state.hideDone
+        })
+    }
+
     render() {
         return (
             <div className='container'>
                 <header>
                     <h1>Metoquests</h1>
 
-                    <form className="new-task" onSubmit={this.handleSubmit.bind(this)}>
-                        <input
-                            type="text"
-                            ref="textInput"
-                            placeholder="Type to add new quest"
+                    <label className="hide-done">
+                        <input type="checkbox"
+                               readOnly
+                               checked={this.state.hideDone}
+                               onClick={this.toggleHideDone.bind(this)}
+                        />
+                        Hide done
+                    </label>
+
+                    <form className="new-task"
+                          onSubmit={this.handleSubmit.bind(this)}>
+                        <input type="text"
+                               ref="textInput"
+                               placeholder="Type to add new quest"
                         />
                     </form>
 
                 </header>
-                <QuestList quests={this.props.quests}/>
+                <QuestList quests={this.props.quests}
+                           hideDone={this.state.hideDone}/>
             </div>
         )
     }
