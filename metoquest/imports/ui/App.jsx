@@ -4,6 +4,8 @@ import {createContainer} from 'meteor/react-meteor-data'
 import {Quests} from '../api/quests'
 import QuestList from './Quests'
 
+//TODO add support for mobile apps https://www.meteor.com/tutorials/react/running-on-mobile
+
 class App extends Component {
 
     handleSubmit(event) {
