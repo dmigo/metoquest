@@ -19,7 +19,12 @@ export default class Quest extends Component {
                 <button className="delete" onClick={this.delete.bind(this)}>
                     &times;
                 </button>
-                <span className="text">{this.props.quest.text}</span>
+                <span className="text">
+                    <strong>
+                        {this.props.quest.username}
+                    </strong>
+                    {this.props.quest.text}
+                </span>
             </li>
         )
     }

@@ -1,8 +1,10 @@
 import React, {Component, PropTypes} from 'react'
 import ReactDOM from 'react-dom'
 import {createContainer} from 'meteor/react-meteor-data'
+import {Meteor} from 'meteor/meteor'
 import {Quests} from '../api/quests'
 import QuestList from './Quests'
+import Cavabunga from './AccountsUIWrapper'
 
 //TODO add support for mobile apps https://www.meteor.com/tutorials/react/running-on-mobile
 
@@ -19,15 +21,15 @@ class App extends Component {
     handleSubmit(event) {
         event.preventDefault();
 
-        // Find the text field via the React ref
         const text = ReactDOM.findDOMNode(this.refs.textInput).value.trim();
 
         Quests.insert({
             text,
-            createdAt: new Date(), // current time
+            createdAt: new Date(), // Todo take time from the server
+            owner: Meteor.userId(),
+            userName: Meteor.user().username
         });
 
-        // Clear form
         ReactDOM.findDOMNode(this.refs.textInput).value = '';
     }
 
@@ -52,13 +54,15 @@ class App extends Component {
                         Hide done
                     </label>
 
-                    <form className="new-task"
-                          onSubmit={this.handleSubmit.bind(this)}>
-                        <input type="text"
-                               ref="textInput"
-                               placeholder="Type to add new quest"
-                        />
-                    </form>
+                    <Cavabunga/>
+                    {this.props.currentUser ?
+                        <form className="new-quest"
+                              onSubmit={this.handleSubmit.bind(this)}>
+                            <input type="text"
+                                   ref="textInput"
+                                   placeholder="Type to add new quest"/>
+                        </form> : ''
+                    }
 
                 </header>
                 <QuestList quests={this.props.quests}
@@ -69,11 +73,14 @@ class App extends Component {
 }
 
 App.propTypes = {
-    quests: PropTypes.array.isRequired
+    quests: PropTypes.array.isRequired,
+    amountOfDone: PropTypes.number.isRequired,
+    currentUser: PropTypes.object
 }
 
 export default createContainer(
     ()=>({
         quests: Quests.find({}, {sort: {createAt: -1}}).fetch(),
-        amountOfDone: Quests.find({done: true}).count()
+        amountOfDone: Quests.find({done: true}).count(),
+        currentUser: Meteor.user()
     }), App)
